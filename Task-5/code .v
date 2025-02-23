@@ -1,12 +1,29 @@
-#define LED_PIN PC0  // Change this to the correct pin for your board
+#include "ch32fun.h"
+#include <stdio.h>
 
-void setup() {
-    pinMode(LED_PIN, OUTPUT);
-}
+int main()
+{
+	SystemInit();
 
-void loop() {
-    digitalWrite(LED_PIN, HIGH);  // Turn LED on
-    delay(1000);                   // Wait 500ms
-    digitalWrite(LED_PIN, LOW);   // Turn LED off
-    delay(1000);                   // Wait 500ms
+	// Enable GPIOs
+	funGpioInitAll();
+	
+	funPinMode( PD0, GPIO_Speed_10MHz | GPIO_CNF_OUT_PP );
+	funPinMode( PD4, GPIO_Speed_10MHz | GPIO_CNF_OUT_PP );
+	funPinMode( PD6, GPIO_Speed_10MHz | GPIO_CNF_OUT_PP );
+	funPinMode( PC0, GPIO_Speed_10MHz | GPIO_CNF_OUT_PP );
+
+	while(1)
+	{
+		funDigitalWrite( PD0, FUN_HIGH );
+		funDigitalWrite( PD4, FUN_HIGH );
+		funDigitalWrite( PD6, FUN_HIGH );
+		funDigitalWrite( PC0, FUN_HIGH );
+		Delay_Ms( 1000 );
+		funDigitalWrite( PD0, FUN_LOW );
+		funDigitalWrite( PD4, FUN_LOW );
+		funDigitalWrite( PD6, FUN_LOW );
+		funDigitalWrite( PC0, FUN_LOW );
+		Delay_Ms( 1000);
+	}
 }
